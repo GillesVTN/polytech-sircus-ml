@@ -2,6 +2,24 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
+class HeatMap:
+
+    def __init__(self, shape: tuple, label: str):
+        self.core = np.zeros(shape)
+        self.label = label
+
+    def print(self):
+        plt.imshow(self.core, cmap='hot', interpolation='nearest')
+        plt.axis("off")
+        plt.show()
+
+    def save_to_png(self, path_and_filename: str):
+        plt.imshow(self.core, cmap='hot', interpolation='nearest')
+        plt.axis("off")
+        plt.savefig(path_and_filename)
+
+
 class HeatMapBuilder:
     def __init__(self, main_path="Acquisitions_Eye_tracking_objets_visages_Fix_Seq1",
                  heatmap_shape=(64, 64), images_shape=(1000, 1000)):
@@ -9,43 +27,39 @@ class HeatMapBuilder:
         self.heatmap_shape = heatmap_shape
         self.images_shape = images_shape
 
-    def read_file(self, group, file_name, sheet_name):
-        data = pd.read_excel("{}/{}/{}".format(self.main_path, group, file_name), sheet_name=sheet_name, header=1)
+    """
+    def read_file(self, file_name, sheet_name):
+        data = pd.read_excel("{}/{}.csv".format(self.main_path, file_name), sheet_name=sheet_name, header=1)
 
-        return data
+        return data"""
 
-    def generate_heatmap(self, group, file_name, sheet_name):
-        """
+    def generate_heatmap(self, file_data: pd.DataFrame, image_name: str, label: str) -> HeatMap:
 
-        :param group:
-        :param file_name:
-        :param sheet_name:
-        :return: HeatMap
-        """
-        data = self.read_file(group, file_name, sheet_name)
+        image_data = file_data[file_data["image_name"] == image_name]
 
-        heatmap = HeatMap(core=np.zeros(self.heatmap_shape))
+        heatmap = HeatMap(self.heatmap_shape, label)
 
-        for index, row in data.iterrows():
-            print(row['x'], row['y'])
+        for index, row in image_data.iterrows():
+            # print(row['x'], row['y'])
             h_x = round(self.heatmap_shape[0] * (row['x'] / self.images_shape[0]))
             h_y = round(self.heatmap_shape[1] * (row['y'] / self.images_shape[1]))
-            print(h_x, h_y)
+            # print(h_x, h_y)
             heatmap.core[h_x][h_y] += 1
 
         return heatmap
 
-    def generate_all(self):
-        pass
+    def generate_all_heatmaps_from_file(self, file_name: str) -> [HeatMap]:
+        """
 
-class HeatMap:
+        :param file_name:
+        :return:
+        """
+        file_data = pd.read_csv(file_name)
 
-    def __init__(self, core):
-        self.core = core
+        images_names_list = file_data["image_name"].unique()
+        heatmaps = []
 
-    def print_heatmap(self, heatmap):
-        plt.imshow(heatmap, cmap='hot', interpolation='nearest')
-        plt.show()
+        for image_name in images_names_list:
+            heatmaps.append(self.generate_heatmap(file_data, image_name))
 
-    def save_to_(self):
-        pass
+        return heatmaps
