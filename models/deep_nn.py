@@ -1,3 +1,4 @@
+import numpy as np
 import tensorflow as tf
 
 from .heatmap import HeatmapBuilder, Heatmap
@@ -20,30 +21,52 @@ def load_data():
         heatmaps_subject = heat_map_builder.generate_all_heatmaps_from_file(file_name)
         for heatmap in heatmaps_subject:
             heatmap_core.append(heatmap.core)
-            heatmap_label.append(heatmap.label)
+            if heatmap_label == "C":
+                heatmap_label.append(0)
+            else:
+                heatmap_label.append(1)
+
 
     return heatmap_core, heatmap_label
 
-def split_datas(train_purcentage:int, cores, labels):
+def split_datas(train_percentage:float, cores, labels):
     """
 
-    :param train_purcentage:
+    :param train_percentage:
     :param cores:
     :param labels:
     :return:
     """
     if len(cores) != len(labels):
         raise ValueError("Lenght of cores and labels not equals")
-    split_number = int(len(cores)*(train_purcentage/100))
+    split_number = int(len(cores) * train_percentage)
 
     return (cores[:split_number], labels[:split_number]), (cores[split_number:], labels[split_number:])
 
 
-def create_model():
-
+def learning():
+    # data gathering
     images, labels = load_data()
+    images = np.asarray(images)
+    labels = np.asarray(labels)
+    # split into train & test datasets
+    (train_images, train_labels), (test_images, test_labels) = split_datas(0.8, images, labels)
 
-    #images = [images[k] /= max(images[k] for k)]
+    # create ml model
+    model = tf.keras.Sequential([
+        tf.keras.layers.Flatten(input_shape=(64, 64)),
+        tf.keras.layers.Normalization(axis=1),
+        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(1, activation="sigmoid")
+    ])
+    model.compile(optimizer='adam',
+                  loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                  metrics=['accuracy'])
+    model.summary()
 
-    (train_images, train_labels), (test_images, test_labels) = split_datas(80, images, labels)
+    model.fit(train_images, train_labels, epochs=10)
+
+    test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
+
+    print("Test accuracy: ", test_acc)
 

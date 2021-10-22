@@ -40,7 +40,7 @@ class HeatmapBuilder:
         heatmap = Heatmap(self.heatmap_shape, label)
 
         for index, row in image_data.iterrows():
-            print(image_name, row['x'], row['y'])
+            #print(image_name, row['x'], row['y'])
             h_x = int((self.heatmap_shape[0]-1) * (row['x'] / self.images_shape[0]))-1
             h_y = int((self.heatmap_shape[1]-1) * (row['y'] / self.images_shape[1]))-1
             #print(h_x, h_y)
