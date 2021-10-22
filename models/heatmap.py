@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-class HeatMap:
+class Heatmap:
 
     def __init__(self, shape: tuple, label: str):
         self.core = np.zeros(shape)
@@ -20,7 +20,7 @@ class HeatMap:
         plt.savefig(path_and_filename)
 
 
-class HeatMapBuilder:
+class HeatmapBuilder:
     def __init__(self, main_path="Acquisitions_Eye_tracking_objets_visages_Fix_Seq1",
                  heatmap_shape=(64, 64), images_shape=(1000, 1000)):
         self.main_path = main_path
@@ -33,11 +33,11 @@ class HeatMapBuilder:
 
         return data"""
 
-    def generate_heatmap(self, file_data: pd.DataFrame, image_name: str, label: str) -> HeatMap:
+    def generate_heatmap(self, file_data: pd.DataFrame, image_name: str, label: str) -> Heatmap:
 
         image_data = file_data[file_data["image_name"] == image_name]
 
-        heatmap = HeatMap(self.heatmap_shape, label)
+        heatmap = Heatmap(self.heatmap_shape, label)
 
         for index, row in image_data.iterrows():
             # print(row['x'], row['y'])
@@ -48,7 +48,7 @@ class HeatMapBuilder:
 
         return heatmap
 
-    def generate_all_heatmaps_from_file(self, file_name: str) -> [HeatMap]:
+    def generate_all_heatmaps_from_file(self, file_name: str) -> [Heatmap]:
         """
 
         :param file_name:
@@ -60,6 +60,6 @@ class HeatMapBuilder:
         heatmaps = []
 
         for image_name in images_names_list:
-            heatmaps.append(self.generate_heatmap(file_data, image_name))
+            heatmaps.append(self.generate_heatmap(file_data, image_name, file_name[0]))
 
         return heatmaps

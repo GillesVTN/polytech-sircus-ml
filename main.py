@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from models.heatmap import HeatMapBuilder
+from models.heatmap import HeatmapBuilder
 from models.csv_builder import CsvBuilder
 
 PATH_FILES = "Acquisitions_Eye_tracking_objets_visages_Fix_Seq1"
@@ -17,4 +17,4 @@ if __name__ == '__main__':
 
     # csv_builder.generate_csv(jobs_nb=10)
 
-    heatmap_builder = HeatMapBuilder()
+    heatmap_builder = HeatmapBuilder()
