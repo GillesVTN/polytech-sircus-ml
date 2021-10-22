@@ -36,14 +36,14 @@ class HeatmapBuilder:
     def generate_heatmap(self, file_data: pd.DataFrame, image_name: str, label: str) -> Heatmap:
 
         image_data = file_data[file_data["image_name"] == image_name]
-
+        #print(image_data)
         heatmap = Heatmap(self.heatmap_shape, label)
 
         for index, row in image_data.iterrows():
-            # print(row['x'], row['y'])
-            h_x = round(self.heatmap_shape[0] * (row['x'] / self.images_shape[0]))
-            h_y = round(self.heatmap_shape[1] * (row['y'] / self.images_shape[1]))
-            # print(h_x, h_y)
+            print(image_name, row['x'], row['y'])
+            h_x = int((self.heatmap_shape[0]-1) * (row['x'] / self.images_shape[0]))-1
+            h_y = int((self.heatmap_shape[1]-1) * (row['y'] / self.images_shape[1]))-1
+            #print(h_x, h_y)
             heatmap.core[h_x][h_y] += 1
 
         return heatmap
@@ -60,6 +60,6 @@ class HeatmapBuilder:
         heatmaps = []
 
         for image_name in images_names_list:
-            heatmaps.append(self.generate_heatmap(file_data, image_name, file_name[0]))
+            heatmaps.append(self.generate_heatmap(file_data, image_name, file_name.split("output/", 1)[1][0]))
 
         return heatmaps
