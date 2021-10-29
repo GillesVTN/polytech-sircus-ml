@@ -60,7 +60,9 @@ def learning(images, labels):
     model = tf.keras.Sequential([
         tf.keras.layers.Flatten(input_shape=(64, 64)),
         tf.keras.layers.Normalization(axis=1),
-        tf.keras.layers.Dense(20, activation="relu"),
+        tf.keras.layers.Dense(128, activation="relu"),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(128, activation="relu"),
         tf.keras.layers.Dense(2)
     ])
     model.compile(optimizer='adam',
@@ -68,7 +70,7 @@ def learning(images, labels):
                   metrics=['accuracy'])
     model.summary()
 
-    model.fit(train_images, train_labels, epochs=10)
+    model.fit(train_images, train_labels, epochs=30)
 
     test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
 
