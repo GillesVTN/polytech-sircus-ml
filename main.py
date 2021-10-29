@@ -15,4 +15,9 @@ if __name__ == '__main__':
 
     # heatmap_builder = HeatmapBuilder()
 
-    learning()
+    images, labels = load_data()
+
+    #print(labels)
+
+    learning(images, labels)
+

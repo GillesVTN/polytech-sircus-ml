@@ -13,21 +13,26 @@ def load_data():
 
     files_list = csv_builder.find_all_datas()
 
-    heatmap_core = []
-    heatmap_label = []
+    heatmaps = []
+    #heatmap_core = []
+    #heatmap_label = []
 
     for file_name in files_list:
         file_name = "output/{}.csv".format(file_name.rsplit(".", 1)[0].rsplit("/", 1)[1])
         heatmaps_subject = heat_map_builder.generate_all_heatmaps_from_file(file_name)
+
         for heatmap in heatmaps_subject:
-            heatmap_core.append(heatmap.core)
-            if heatmap_label == "C":
-                heatmap_label.append(0)
+            #heatmap_core.append(heatmap.core)
+            if heatmap.label == "C":
+                heatmap_label = 0
             else:
-                heatmap_label.append(1)
+                heatmap_label = 1
 
+            heatmaps.append((heatmap.core, heatmap_label))
 
-    return heatmap_core, heatmap_label
+        np.random.shuffle(heatmaps)
+
+    return [heatmap[0] for heatmap in heatmaps], [heatmap[1] for heatmap in heatmaps]
 
 def split_datas(train_percentage:float, cores, labels):
     """
@@ -44,9 +49,8 @@ def split_datas(train_percentage:float, cores, labels):
     return (cores[:split_number], labels[:split_number]), (cores[split_number:], labels[split_number:])
 
 
-def learning():
+def learning(images, labels):
     # data gathering
-    images, labels = load_data()
     images = np.asarray(images)
     labels = np.asarray(labels)
     # split into train & test datasets
@@ -56,8 +60,8 @@ def learning():
     model = tf.keras.Sequential([
         tf.keras.layers.Flatten(input_shape=(64, 64)),
         tf.keras.layers.Normalization(axis=1),
-        tf.keras.layers.Dense(256, activation="relu"),
-        tf.keras.layers.Dense(1, activation="sigmoid")
+        tf.keras.layers.Dense(20, activation="relu"),
+        tf.keras.layers.Dense(2)
     ])
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
@@ -67,6 +71,7 @@ def learning():
     model.fit(train_images, train_labels, epochs=10)
 
     test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
+
 
     print("Test accuracy: ", test_acc)
 
