@@ -1,4 +1,5 @@
 from models.deep_nn import *
+from models.heatmap import *
 
 # PATH_FILES = "Acquisitions_Eye_tracking_objets_visages_Fix_Seq1"
 
@@ -13,5 +14,4 @@ if __name__ == '__main__':
 
     #print(labels)
 
-    learning(images, labels)
-
+    learning_cnn(images, labels)
