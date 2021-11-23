@@ -14,4 +14,5 @@ if __name__ == '__main__':
 
     #print(labels)
 
-    learning_cnn(images, labels)
+    #learning_cnn(images, labels)
+    learning_autoencoder(images, labels)
