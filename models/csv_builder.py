@@ -38,6 +38,11 @@ class CsvBuilder:
             yield list[i:i+n]
 
     def generate_csv(self, jobs_nb=10):
+        """
+        Génère un csv contenant les données de la position des yeux d'un patient sur plusieurs images
+        :param jobs_nb:
+        :return:
+        """
 
         files_list = self.find_all_datas()
 

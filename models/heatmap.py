@@ -10,11 +10,20 @@ class Heatmap:
         self.label = label
 
     def print(self):
+        """
+        Affiche une fenetre contenant l'image de l'heatmap
+        :return:
+        """
         plt.imshow(self.core, cmap='hot', interpolation='nearest')
         plt.axis("off")
         plt.show()
 
     def save_to_png(self, path_and_filename: str):
+        """
+        Enregistre l'image de la heatmap en png
+        :param path_and_filename:
+        :return:
+        """
         plt.imshow(self.core, cmap='hot', interpolation='nearest')
         plt.axis("off")
         plt.savefig(path_and_filename)
@@ -34,6 +43,13 @@ class HeatmapBuilder:
         return data"""
 
     def generate_heatmap(self, file_data: pd.DataFrame, image_name: str, label: str) -> Heatmap:
+        """
+        Génére une heatmap à partir d'un fichier csv et  de son image
+        :param file_data:
+        :param image_name:
+        :param label:
+        :return:
+        """
 
         image_data = file_data[file_data["image_name"] == image_name]
         #print(image_data)
@@ -50,7 +66,7 @@ class HeatmapBuilder:
 
     def generate_all_heatmaps_from_file(self, file_name: str) -> [Heatmap]:
         """
-
+        Génére toutes les heatmaps à partir d'un fichier csv
         :param file_name:
         :return:
         """

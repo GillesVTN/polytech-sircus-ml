@@ -10,6 +10,10 @@ HEATMAP_SIZE = (64, 64)
 
 
 def load_data():
+    """
+    Charge les données des csv et retour une liste d'heatmaps et une liste des labels associés
+    :return:
+    """
     heat_map_builder = HeatmapBuilder(HEATMAP_SIZE)
     csv_builder = CsvBuilder()
 
@@ -40,8 +44,8 @@ def load_data():
 
 def split_datas(train_percentage: float, cores, labels):
     """
-
-    :param train_percentage:
+    Sépare les données en un tuple données d'apprentissage et un tuple données de test selon un ratio
+    :param train_percentage: pourcentage
     :param cores:
     :param labels:
     :return:
@@ -54,6 +58,10 @@ def split_datas(train_percentage: float, cores, labels):
 
 
 def fully_connectec_model():
+    """
+    Retourne le modéle MLP FCN
+    :return:
+    """
     model = tf.keras.Sequential([
         tf.keras.layers.Flatten(input_shape=(64, 64)),
         tf.keras.layers.Normalization(axis=1),
@@ -88,6 +96,12 @@ def learning(images, labels):
 
 
 def learning_cnn(images, labels):
+    """
+    Modéle CNN
+    :param images:
+    :param labels:
+    :return:
+    """
     # data gathering
     images = np.asarray(images)
     labels = np.asarray(labels)
@@ -128,6 +142,12 @@ def learning_cnn(images, labels):
 
 
 def learning_autoencoder(images, labels):
+    """
+    Modèle Autoencoder
+    :param images:
+    :param labels:
+    :return:
+    """
     # data gathering
     images = np.asarray(images)
     labels = np.asarray(labels)
