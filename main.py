@@ -1,5 +1,6 @@
-from models.deep_nn import *
-from models.heatmap import *
+from models.ml_utils import *
+
+from models import nn, cnn, autoencoder
 
 # PATH_FILES = "Acquisitions_Eye_tracking_objets_visages_Fix_Seq1"
 
@@ -15,4 +16,4 @@ if __name__ == '__main__':
     #print(labels)
 
     #learning_cnn(images, labels)
-    learning_autoencoder(images, labels)
+    autoencoder.learn_autoencoder(images, labels)

@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 class Heatmap:
 
     def __init__(self, shape: tuple, label: str):
@@ -51,14 +52,17 @@ class HeatmapBuilder:
         """
 
         image_data = file_data[file_data["image_name"] == image_name]
-        #print(image_data)
+        # print(image_data)
         heatmap = Heatmap(self.heatmap_shape, label)
 
+        # Get number of measures for future normalization
+        heatmap.image_measures_number = len(image_data)
+
         for index, row in image_data.iterrows():
-            #print(image_name, row['x'], row['y'])
-            h_x = int((self.heatmap_shape[0]-1) * (row['x'] / self.images_shape[0]))-1
-            h_y = int((self.heatmap_shape[1]-1) * (row['y'] / self.images_shape[1]))-1
-            #print(h_x, h_y)
+            # print(image_name, row['x'], row['y'])
+            h_x = int((self.heatmap_shape[0] - 1) * (row['x'] / self.images_shape[0])) - 1
+            h_y = int((self.heatmap_shape[1] - 1) * (row['y'] / self.images_shape[1])) - 1
+            # print(h_x, h_y)
             heatmap.core[h_x][h_y] += 1
 
         return heatmap
