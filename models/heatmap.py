@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
 class Heatmap:
 
     def __init__(self, shape: tuple, label: str):
