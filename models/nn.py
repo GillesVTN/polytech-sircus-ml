@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
-from ml_utils import split_datas
+from .ml_utils import split_datas
 
 def nn_model():
     model = tf.keras.Sequential([
@@ -28,7 +28,7 @@ def learn(images, labels):
     # create ml model
     model = nn_model()
 
-    model.fit(train_images, train_labels, epochs=30)
+    model.fit(train_images, train_labels, epochs=15)
 
     test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
 
