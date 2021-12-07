@@ -1,6 +1,4 @@
-from models import heatmap, nn, ml_utils
 
-#from .models import nn, cnn, autoencoder
 
 # PATH_FILES = "Acquisitions_Eye_tracking_objets_visages_Fix_Seq1"
 
@@ -14,6 +12,6 @@ if __name__ == '__main__':
     images, labels = ml_utils.load_data()
 
     #print(labels)
-    nn.learn(images, labels)
-    #learning_cnn(images, labels)
+
+    cnn.learn_cnn(images, labels, n_epochs=20)
     #autoencoder.learn_autoencoder(images, labels)

@@ -7,15 +7,21 @@ def cnn_model():
     model = tf.keras.Sequential([
         # Partie convultionnelle
         tf.keras.layers.Conv2D(32, (3, 3), activation="relu", input_shape=(64, 64, 1)),
-        # tf.keras.layers.MaxPooling2D((2, 2)),
+        tf.keras.layers.MaxPooling2D((2, 2)),
         tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
-        # tf.keras.layers.MaxPooling2D((2, 2)),
-        tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
+        tf.keras.layers.MaxPooling2D((2, 2)),
+        tf.keras.layers.Conv2D(128, (3, 3), activation="relu"),
+        tf.keras.layers.MaxPooling2D((2, 2)),
+        tf.keras.layers.Conv2D(256, (3, 3), activation="relu"),
+        tf.keras.layers.MaxPooling2D((2, 2)),
+        tf.keras.layers.Conv2D(512, (3, 3), activation="relu"),
+        tf.keras.layers.MaxPooling2D((2, 2)),
 
         # Classification
         tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(128, activation='relu'),
         tf.keras.layers.Dense(64, activation='relu'),
-        tf.keras.layers.Dense(2)
+        tf.keras.layers.Dense(2, activation='softmax')
     ])
 
     model.compile(optimizer='adam',
@@ -25,7 +31,7 @@ def cnn_model():
 
     return model
 
-def learn_cnn(images, labels):
+def learn_cnn(images, labels, n_epochs):
     """
     Modéle CNN
     :param images:
@@ -47,8 +53,10 @@ def learn_cnn(images, labels):
     # create ml model
     model = cnn_model()
 
-    model.fit(train_images, train_labels, epochs=10)
+    history = model.fit(train_images, train_labels, epochs=n_epochs, validation_data=(test_images, test_labels))
 
     test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
 
     print("Test accuracy: ", test_acc)
+
+    return test_acc, history
