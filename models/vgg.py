@@ -1,11 +1,27 @@
 import numpy as np
+import tensorflow as tf
 
 from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
 from keras.models import Model
 
 from .ml_utils import split_datas
 
-def predict_vgg(images, labels):
+
+def nn_model_classif():
+    model = tf.keras.Sequential([
+        tf.keras.layers.Dense(224, activation="relu", input_shape=(None,4096)),
+        tf.keras.layers.Dense(112, activation="relu"),
+        tf.keras.layers.Dense(56, activation="relu"),
+        tf.keras.layers.Dense(2, activation="softmax")
+    ])
+    model.compile(optimizer='adam',
+                  loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                  metrics=["accuracy"])
+    model.summary()
+    return model
+
+
+def predict_vgg(images, labels, n_epochs=10):
     # data gathering
     images = np.asarray(images)
     labels = np.asarray(labels)
@@ -19,14 +35,15 @@ def predict_vgg(images, labels):
     print("Base:", images_arr.shape)
 
     # upscale image
-    images_arr = np.resize(images_arr, (images_arr.shape[0],224,224))
+    images_arr = np.resize(images_arr, (images_arr.shape[0], 224, 224))
     print("apres resize:", images_arr.shape)
     # matrix to 3 rgb matrix
-    images_arr = np.stack((images_arr,)*3, axis=-1)
-    print("apres rgb:",images_arr.shape)
+    images_arr = np.stack((images_arr,) * 3, axis=-1)
+    print("apres rgb:", images_arr.shape)
     # reshape data for the model
-    images_arr = images_arr.reshape((images_arr.shape[0], images_arr.shape[1], images_arr.shape[2], images_arr.shape[3]))
-    print("apres reshape:",images_arr.shape)
+    images_arr = images_arr.reshape(
+        (images_arr.shape[0], images_arr.shape[1], images_arr.shape[2], images_arr.shape[3]))
+    print("apres reshape:", images_arr.shape)
     # prepare the image for the VGG model
     images_arr = preprocess_input(images_arr)
     # remove the output layer
@@ -35,16 +52,27 @@ def predict_vgg(images, labels):
     yhat = model.predict(images_arr)
     print(yhat)
     print(yhat.shape)
-    np.savetxt("output_vgg_features_v2.txt", yhat)
-    np.savetxt("output_labels_v2.txt", train_labels)
+    #np.savetxt("output_vgg_features.txt", yhat)
+    #np.savetxt("output_labels.txt", train_labels)
+
+    (features_train_classif, labels_train_classif), (features_test_classif, labels_test_classif) = split_datas(0.8, yhat, train_labels)
+    print(features_train_classif.shape)
+
+    model_classif = nn_model_classif()
+
+    model_classif.fit(features_train_classif, labels_train_classif, epochs=n_epochs, shuffle=True)
+
+    test_loss, test_acc = model_classif.evaluate(features_test_classif, labels_test_classif, verbose=2)
+
+    print("Test accuracy: ", test_acc)
 
 
     # convert the probabilities to class labels
-    #label = decode_predictions(yhat)
+    # label = decode_predictions(yhat)
     # retrieve the most likely result, e.g. highest probability
-    #label = label[0][0]
+    # label = label[0][0]
     # print the classification
-    #print('%s (%.2f%%)' % (label[1], label[2] * 100))
+    # print('%s (%.2f%%)' % (label[1], label[2] * 100))
 
     """
     label = model.predict(train_images)

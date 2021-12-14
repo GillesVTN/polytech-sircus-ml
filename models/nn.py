@@ -6,19 +6,17 @@ from .ml_utils import split_datas
 def nn_model():
     model = tf.keras.Sequential([
         tf.keras.layers.Flatten(input_shape=(64, 64)),
-        tf.keras.layers.Normalization(axis=1),
         tf.keras.layers.Dense(128, activation="relu"),
-        tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Dense(128, activation="relu"),
         tf.keras.layers.Dense(2, activation="softmax")
     ])
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-                  metrics=['accuracy'])
+                  metrics=["accuracy"])
     model.summary()
     return model
 
-def learn(images, labels):
+def learn(images, labels, n_epochs=10):
     # data gathering
     images = np.asarray(images)
     labels = np.asarray(labels)
@@ -28,10 +26,10 @@ def learn(images, labels):
     # create ml model
     model = nn_model()
 
-    model.fit(train_images, train_labels, epochs=15)
+    history = model.fit(train_images, train_labels, epochs=n_epochs, validation_data=(test_images, test_labels))
 
     test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
 
     print("Test accuracy: ", test_acc)
 
-
+    return history
