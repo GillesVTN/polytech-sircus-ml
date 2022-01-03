@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
-from ml_utils import split_datas
+from .ml_utils import split_datas
 
 def cnn_model():
     model = tf.keras.Sequential([

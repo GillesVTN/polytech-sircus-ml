@@ -1,4 +1,4 @@
-
+from models import ml_utils, cnn, nn, vgg
 
 # PATH_FILES = "Acquisitions_Eye_tracking_objets_visages_Fix_Seq1"
 
@@ -13,5 +13,6 @@ if __name__ == '__main__':
 
     #print(labels)
 
-    cnn.learn_cnn(images, labels, n_epochs=20)
+    vgg.predict_vgg(images, labels)
+    #cnn.learn_cnn(images, labels, n_epochs=20)
     #autoencoder.learn_autoencoder(images, labels)

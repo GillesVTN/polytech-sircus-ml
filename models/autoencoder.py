@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-from ml_utils import split_datas
+from .ml_utils import split_datas
 
 def learn_autoencoder(images, labels):
     # data gathering
