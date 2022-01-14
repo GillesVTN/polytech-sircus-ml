@@ -1,0 +1,2 @@
+output_vgg_features.txt filter=lfs diff=lfs merge=lfs -text
+output_labels.txt filter=lfs diff=lfs merge=lfs -text
