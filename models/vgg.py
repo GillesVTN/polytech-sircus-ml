@@ -30,13 +30,13 @@ def predict_vgg(images, labels):
     # prepare the image for the VGG model
     images_arr = preprocess_input(images_arr)
     # remove the output layer
-    model = Model(inputs=model.inputs, outputs=model.layers[-2].output)
+    model = Model(inputs=model.inputs, outputs=model.layers[-3].output)
     # predict the probability across all output classes
     yhat = model.predict(images_arr)
     print(yhat)
     print(yhat.shape)
-    np.savetxt("output_vgg_features.txt", yhat)
-    np.savetxt("output_labels.txt", train_labels)
+    np.savetxt("output_vgg_features_v2.txt", yhat)
+    np.savetxt("output_labels_v2.txt", train_labels)
 
 
     # convert the probabilities to class labels
