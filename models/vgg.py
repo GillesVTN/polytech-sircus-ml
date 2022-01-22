@@ -52,27 +52,8 @@ def predict_vgg(images, labels, n_epochs=10):
     yhat = model.predict(images_arr)
     print(yhat)
     print(yhat.shape)
-    #np.savetxt("output_vgg_features.txt", yhat)
-    #np.savetxt("output_labels.txt", train_labels)
-
-    (features_train_classif, labels_train_classif), (features_test_classif, labels_test_classif) = split_datas(0.8, yhat, train_labels)
-    print(features_train_classif.shape)
-
-    model_classif = nn_model_classif()
-
-    model_classif.fit(features_train_classif, labels_train_classif, epochs=n_epochs, shuffle=True)
-
-    test_loss, test_acc = model_classif.evaluate(features_test_classif, labels_test_classif, verbose=2)
-
-    print("Test accuracy: ", test_acc)
-
-
-    # convert the probabilities to class labels
-    # label = decode_predictions(yhat)
-    # retrieve the most likely result, e.g. highest probability
-    # label = label[0][0]
-    # print the classification
-    # print('%s (%.2f%%)' % (label[1], label[2] * 100))
+    np.savetxt("output_vgg_features_shuffle.txt", yhat)
+    np.savetxt("output_labels_shuffle.txt", train_labels)
 
     """
     label = model.predict(train_images)

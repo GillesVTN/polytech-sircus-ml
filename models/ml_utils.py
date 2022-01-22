@@ -60,7 +60,7 @@ def load_data():
 
             heatmaps.append((heatmap.core, heatmap_label))
 
-        #np.random.shuffle(heatmaps)
+        np.random.shuffle(heatmaps)
 
     return [heatmap[0] for heatmap in heatmaps], [heatmap[1] for heatmap in heatmaps]
 

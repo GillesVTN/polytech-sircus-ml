@@ -2,3 +2,5 @@ output_vgg_features.txt filter=lfs diff=lfs merge=lfs -text
 output_labels.txt filter=lfs diff=lfs merge=lfs -text
 output_labels_v2.txt filter=lfs diff=lfs merge=lfs -text
 output_vgg_features_v2.txt filter=lfs diff=lfs merge=lfs -text
+output_labels_shuffle.txt filter=lfs diff=lfs merge=lfs -text
+output_vgg_features_shuffle.txt filter=lfs diff=lfs merge=lfs -text

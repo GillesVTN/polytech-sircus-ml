@@ -1,4 +1,4 @@
-from models import ml_utils, cnn, nn, vgg
+from models import ml_utils, cnn, nn, vgg, vgg_classif
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
@@ -14,11 +14,23 @@ if __name__ == '__main__':
 
     # heatmap_builder = HeatmapBuilder()
 
-    images, labels = ml_utils.load_data()
+    #images, labels = ml_utils.load_data()
 
     #print(labels)
 
-    vgg.predict_vgg(images, labels)
+    #vgg.predict_vgg(images, labels)
+
+    history = vgg_classif.learn(n_epochs=160)
+
+    import matplotlib.pyplot as plt
+
+    plt.plot(history.history['accuracy'])
+    plt.plot(history.history['val_accuracy'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'val'], loc='upper left')
+    plt.show()
 
     #data = np.genfromtxt("output_vgg_features.txt")
 
@@ -26,6 +38,8 @@ if __name__ == '__main__':
     #components = pca.fit_transform(data)
     #print(pca.explained_variance_ratio_)
     #total_var = pca.explained_variance_ratio_.sum() * 100
+
+    #nn.learn(images, labels, 50)
 
     '''
     fig = px.scatter_3d(
