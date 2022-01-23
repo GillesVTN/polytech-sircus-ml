@@ -34,7 +34,7 @@ def learn(features_file_name="output_vgg_features_shuffle.txt", labels_file_name
 
     model_classif = nn_model_classif()
 
-    history = model_classif.fit(train_features, train_labels, epochs=n_epochs, shuffle=True, validation_split=0.1)
+    history = model_classif.fit(train_features, train_labels, epochs=n_epochs, shuffle=True, validation_split=0.2)
 
     test_loss, test_acc = model_classif.evaluate(test_features, test_labels, verbose=2)
 

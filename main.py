@@ -14,7 +14,7 @@ class Classifiers():
         self.images = None
         self.labels = None
 
-    def generate_heatmaps(self):
+    def generate_csv_files(self):
         builder = csv_builder.CsvBuilder()
         builder.generate_csv(jobs_nb=10)
 
@@ -71,4 +71,6 @@ class Classifiers():
 if __name__ == '__main__':
     classifiers = Classifiers()
 
-    classifiers.learn_classfif_vgg(20)
+    history = classifiers.learn_fcn(20)
+
+    classifiers.plot_history(history)
