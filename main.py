@@ -52,6 +52,14 @@ class Classifiers():
         plt.legend(['train', 'val'], loc='upper left')
         plt.show()
 
+        plt.plot(history.history['loss'])
+        plt.plot(history.history['val_loss'])
+        plt.title('model loss')
+        plt.ylabel('loss')
+        plt.xlabel('epoch')
+        plt.legend(['train', 'val'], loc='upper left')
+        plt.show()
+
     def plot_pca(self):
         data = np.genfromtxt("output_vgg_features.txt")
 
@@ -71,6 +79,6 @@ class Classifiers():
 if __name__ == '__main__':
     classifiers = Classifiers()
 
-    history = classifiers.learn_fcn(20)
+    history = classifiers.learn_cnn(50)
 
     classifiers.plot_history(history)

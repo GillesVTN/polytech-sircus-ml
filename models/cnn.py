@@ -60,7 +60,7 @@ def learn_cnn(images, labels, n_epochs):
     # create ml model
     model = cnn_model()
 
-    history = model.fit(train_images, train_labels, epochs=n_epochs, validation_data=(test_images, test_labels))
+    history = model.fit(train_images, train_labels, epochs=n_epochs, validation_split=0.1)
 
     test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
 
