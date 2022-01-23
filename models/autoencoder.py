@@ -2,12 +2,21 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-from .ml_utils import split_datas
+from tensorflow.keras.utils import plot_model
+from .ml_utils import split_datas, display
+from sklearn.metrics import accuracy_score
 
 def learn_autoencoder(images, labels):
+    """
+    Créer le modèle d'auto-encodeur, et l'entraîne avec nos données
+    :param images:
+    :param labels:
+    :return:
+    """
     # data gathering
     images = np.asarray(images)
     labels = np.asarray(labels)
+
     # split into train & test datasets
     (train_images, train_labels), (test_images, test_labels) = split_datas(0.8, images, labels)
 
@@ -86,12 +95,18 @@ def learn_autoencoder(images, labels):
     autoencoder.compile(optimizer="rmsprop", loss="binary_crossentropy")
     autoencoder.summary()
 
+    # plot the autoencoder
+    #plot_model(autoencoder, 'autoencoder_compress.png', show_shapes=True)
+
     autoencoder.fit(train_images, train_images, epochs=1, batch_size=128, shuffle=True,
                     validation_data=(test_images, test_images))
 
     predictions = autoencoder.predict(test_images)
 
-    # display(test_images, predictions)
+    # calculate classification accuracy
+    acc = accuracy_score(test_labels, predictions)
+    print(acc)
+    #display(test_images, predictions)
 
     print(test_images[0].shape)
     plt.imshow(test_images[0], cmap="hot", interpolation="nearest")

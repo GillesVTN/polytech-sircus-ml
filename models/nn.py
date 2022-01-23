@@ -4,6 +4,10 @@ import tensorflow as tf
 from .ml_utils import split_datas
 
 def nn_model():
+    """
+    Neural network model
+    :return: neural network model
+    """
     model = tf.keras.Sequential([
         tf.keras.layers.Flatten(input_shape=(64, 64)),
         tf.keras.layers.Dense(128, activation="relu"),
@@ -14,9 +18,18 @@ def nn_model():
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
                   metrics=["accuracy"])
     model.summary()
+
     return model
 
 def learn(images, labels, n_epochs=10):
+    """
+    Apprentissage du réseau nn
+    :param images:
+    :param labels:
+    :param n_epochs: nombre d'epochs
+    :return:
+    """
+
     # data gathering
     images = np.asarray(images)
     labels = np.asarray(labels)

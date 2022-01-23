@@ -4,6 +4,11 @@ import tensorflow as tf
 from .ml_utils import split_datas
 
 def cnn_model():
+    """
+    Créer le modèle CNN
+    :return: modèle CNN Keras
+    """
+
     model = tf.keras.Sequential([
         # Partie convultionnelle
         tf.keras.layers.Conv2D(32, (3, 3), activation="relu", input_shape=(64, 64, 1)),
@@ -33,14 +38,15 @@ def cnn_model():
 
 def learn_cnn(images, labels, n_epochs):
     """
-    Modéle CNN
+    Apprentisage du modèle  CNN
     :param images:
     :param labels:
-    :return:
+    :return: test_acc, history
     """
     # data gathering
     images = np.asarray(images)
     labels = np.asarray(labels)
+
     # split into train & test datasets
     (train_images, train_labels), (test_images, test_labels) = split_datas(0.8, images, labels)
 
@@ -50,6 +56,7 @@ def learn_cnn(images, labels, n_epochs):
 
     test_images = np.array(test_images)
     test_images = test_images.reshape((test_images.shape[0], 64, 64, 1))
+
     # create ml model
     model = cnn_model()
 

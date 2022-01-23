@@ -8,6 +8,10 @@ from .ml_utils import split_datas
 
 
 def nn_model_classif():
+    """
+    Modele servant à la classification des donneés issues de vgg16
+    :return: keras modèle
+    """
     model = tf.keras.Sequential([
         tf.keras.layers.Dense(224, activation="relu", input_shape=(None,4096)),
         tf.keras.layers.Dense(112, activation="relu"),
@@ -22,6 +26,13 @@ def nn_model_classif():
 
 
 def predict_vgg(images, labels, n_epochs=10):
+    """
+    Créer un modèle VGG, puis l'entraine et sauvegarde les données avant classification dans un fichier texte
+    :param images:
+    :param labels:
+    :param n_epochs:
+    :return:
+    """
     # data gathering
     images = np.asarray(images)
     labels = np.asarray(labels)
@@ -52,13 +63,8 @@ def predict_vgg(images, labels, n_epochs=10):
     yhat = model.predict(images_arr)
     print(yhat)
     print(yhat.shape)
+
+    # sauvegarder les données avant classification dans un fichier texte
     np.savetxt("output_vgg_features_shuffle.txt", yhat)
     np.savetxt("output_labels_shuffle.txt", train_labels)
 
-    """
-    label = model.predict(train_images)
-
-    label = label[0][0]
-    # print the classification
-    print('%s (%.2f%%)' % (label[1], label[2] * 100))
-    """

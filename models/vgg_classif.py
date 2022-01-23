@@ -4,6 +4,10 @@ import tensorflow as tf
 from .ml_utils import split_datas
 
 def nn_model_classif():
+    """
+    Modele servant à la classification des donneés issues de vgg16
+    :return: keras modèle
+    """
     model = tf.keras.Sequential([
         tf.keras.layers.Flatten(input_shape=(4096,)),
         tf.keras.layers.Dense(128, activation="relu"),

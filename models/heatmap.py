@@ -36,12 +36,6 @@ class HeatmapBuilder:
         self.heatmap_shape = heatmap_shape
         self.images_shape = images_shape
 
-    """
-    def read_file(self, file_name, sheet_name):
-        data = pd.read_excel("{}/{}.csv".format(self.main_path, file_name), sheet_name=sheet_name, header=1)
-
-        return data"""
-
     def generate_heatmap(self, file_data: pd.DataFrame, image_name: str, label: str) -> Heatmap:
         """
         Génére une heatmap à partir d'un fichier csv et  de son image
