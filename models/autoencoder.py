@@ -108,5 +108,4 @@ def learn_autoencoder(images, labels):
     print(acc)
     #display(test_images, predictions)
 
-    print(test_images[0].shape)
-    plt.imshow(test_images[0], cmap="hot", interpolation="nearest")
+    print("autoencoder accuracy : ", test_acc)

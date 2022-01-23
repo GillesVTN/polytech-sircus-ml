@@ -66,4 +66,4 @@ def learn_cnn(images, labels, n_epochs):
 
     print("Test accuracy: ", test_acc)
 
-    return test_acc, history
+    return history
