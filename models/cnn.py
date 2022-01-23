@@ -11,15 +11,15 @@ def cnn_model():
 
     model = tf.keras.Sequential([
         # Partie convultionnelle
-        tf.keras.layers.Conv2D(32, (3, 3), activation="relu", input_shape=(64, 64, 1)),
+        tf.keras.layers.Conv2D(32, (3, 3), activation="relu", padding="same",  input_shape=(64, 64, 1)),
         tf.keras.layers.MaxPooling2D((2, 2)),
-        tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
+        tf.keras.layers.Conv2D(64, (3, 3), activation="relu", padding="same"),
         tf.keras.layers.MaxPooling2D((2, 2)),
-        tf.keras.layers.Conv2D(128, (3, 3), activation="relu"),
+        tf.keras.layers.Conv2D(128, (3, 3), activation="relu", padding="same"),
         tf.keras.layers.MaxPooling2D((2, 2)),
-        tf.keras.layers.Conv2D(256, (3, 3), activation="relu"),
+        tf.keras.layers.Conv2D(256, (3, 3), activation="relu", padding="same"),
         tf.keras.layers.MaxPooling2D((2, 2)),
-        tf.keras.layers.Conv2D(512, (3, 3), activation="relu"),
+        tf.keras.layers.Conv2D(512, (3, 3), activation="relu", padding="same"),
         tf.keras.layers.MaxPooling2D((2, 2)),
 
         # Classification
@@ -28,6 +28,23 @@ def cnn_model():
         tf.keras.layers.Dense(64, activation='relu'),
         tf.keras.layers.Dense(2, activation='softmax')
     ])
+
+    # Modèle plus simple, mais peu efficace -> 60% d'accruracy
+    """
+    model = tf.keras.Sequential([
+        # Partie convultionnelle
+        tf.keras.layers.Conv2D(32, (3, 3), activation="relu", input_shape=(64, 64, 1)),
+        # tf.keras.layers.MaxPooling2D((2, 2)),
+        tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
+        # tf.keras.layers.MaxPooling2D((2, 2)),
+        tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
+
+        # Classification
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.layers.Dense(2)
+    ])
+    """
 
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
