@@ -71,8 +71,4 @@ class Classifiers():
 if __name__ == '__main__':
     classifiers = Classifiers()
 
-    #classifiers.learn_cnn(50)
-
-    #classifiers.learn_classfif_vgg(n_epochs=20)
-
-    classifiers.learn_autoencoder(20)
+    classifiers.learn_classfif_vgg(20)

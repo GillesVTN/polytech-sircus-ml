@@ -103,6 +103,6 @@ def learn_autoencoder(images, labels):
 
     #predictions = encoded.predict(test_images)
 
-    test_loss, test_acc = autoencoder.evaluate(test_images, test_images, verbose=2)
+    # test_loss, test_acc = autoencoder.evaluate(test_images, test_images, verbose=2)
 
-    print("autoencoder accuracy : ", test_acc)
+    #print("autoencoder accuracy : ", test_acc)
