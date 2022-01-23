@@ -98,14 +98,11 @@ def learn_autoencoder(images, labels):
     # plot the autoencoder
     #plot_model(autoencoder, 'autoencoder_compress.png', show_shapes=True)
 
-    autoencoder.fit(train_images, train_images, epochs=1, batch_size=128, shuffle=True,
-                    validation_data=(test_images, test_images))
+    autoencoder.fit(train_images, train_images, epochs=5, batch_size=128, shuffle=True,
+                    validation_split=0.1)
 
-    predictions = autoencoder.predict(test_images)
+    #predictions = encoded.predict(test_images)
 
-    # calculate classification accuracy
-    acc = accuracy_score(test_labels, predictions)
-    print(acc)
-    #display(test_images, predictions)
+    test_loss, test_acc = autoencoder.evaluate(test_images, test_images, verbose=2)
 
     print("autoencoder accuracy : ", test_acc)

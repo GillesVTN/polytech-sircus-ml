@@ -37,7 +37,7 @@ class Classifiers():
         vgg.predict_vgg(self.images, self.labels)
 
     def learn_classfif_vgg(self, n_epochs):
-        return vgg_classif.learn(n_epochs)
+        return vgg_classif.learn(n_epochs=n_epochs)
 
     def learn_autoencoder(self, n_epochs):
         self.load_heatmaps()
@@ -73,4 +73,6 @@ if __name__ == '__main__':
 
     #classifiers.learn_cnn(50)
 
-    classifiers.learn_classfif_vgg(n_epochs=20)
+    #classifiers.learn_classfif_vgg(n_epochs=20)
+
+    classifiers.learn_autoencoder(20)
